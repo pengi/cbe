@@ -4,16 +4,16 @@
 # before.
 #
 # do_stuff:
-#     $(TRACE) STUFF $@
+#     $(call TRACE,STUFF)
 #     $(Q)command stuff to do
 #     $(Q)other_command more stuff to do
 #
 ifeq ($(V),1)
-TRACE  = @printf -- "----- %-24s %-8s %s\n" $(TARGET)
+TRACE  = @printf -- "----- %-30s %-8s %s\n" $(DISPLAYNAME) $1 $(patsubst $(TMPDIR)%,...%,$@)
 Q      =
 SILENT =
 else
-TRACE  = @printf "%-24s %-8s %s\n" $(TARGET)
+TRACE  = @printf "%-30s %-8s %s\n" $(DISPLAYNAME) $1 $(patsubst $(TMPDIR)%,...%,$@)
 Q      = @
 SILENT = --silent
 endif

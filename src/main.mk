@@ -1,35 +1,44 @@
-include $(CBE)/src/lib/*
+include $(CBE)/src/lib/tools.mk
+include $(CBE)/src/lib/verbosity.mk
 
-TARGETS=\
-	nodeflight-stm32f722xe \
-	nodeflight-stm32f745xg
+# For verbosity on top level makes
+DISPLAYNAME=""
+TMPDIR=build/tmp/root
 
-# Disabled: nodeflight-stm32f405
+################################################################################
+# All
+################################################################################
 
-# For verbosity
-TARGET=""
+all: $(addprefix build/,$(TARGETS))
 
-all: $(addsuffix .elf,$(TARGETS))
+################################################################################
+# Top level dependencies
+################################################################################
 
-check: unittest
+-include $(patsubst %,build/deps/%.d,$(TARGETS))
 
-%.elf %.hex: FORCE
-	$(TRACE) MAKE $@
-	$(Q)$(MAKE) $(SILENT) -f make/target.mk TARGET=$*
+build/deps/%.d: make/%.mk
+	$(Q)$(MAKE) $(SILENT) -f $(CBE)/src/dep.mk $@
 
-unittest: build/nodeflight-unittest.elf
-	$(TRACE) UNITTEST
-	$(Q)$<
+################################################################################
+# Build target
+################################################################################
 
-build/%.elf: FORCE
-	$(TRACE) MAKE $@
-	$(Q)$(MAKE) $(SILENT) -q -f make/target.mk TARGET=$* build/nodeflight-$*.elf
+TARGET_FILES=$(addprefix build/,$(TARGETS))
+$(TARGET_FILES): FORCE
+	$(call TRACE,MAKE)
+	$(Q)$(MAKE) $(SILENT) -f $(CBE)/src/target.mk $@
+
+################################################################################
+# Clean
+################################################################################
 
 clean: FORCE
 	rm -rf build
-	rm -f $(addsuffix .elf,$(TARGETS))
-	rm -f $(addsuffix .hex,$(TARGETS))
+
+################################################################################
+# Meta
+################################################################################
 
 FORCE:
-
 .PHONY: FORCE
