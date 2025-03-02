@@ -5,6 +5,6 @@ TARGET:=$(patsubst build/%,%,$(MAKECMDGOALS))
 DISPLAYNAME:=$(TARGET)
 
 TMPDIR:=build/tmp/$(TARGET)
-include make/$(TARGET).mk
+include targets/$(TARGET).mk
 
 .PHONY: all

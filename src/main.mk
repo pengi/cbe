@@ -17,7 +17,7 @@ all: $(addprefix build/,$(TARGETS))
 
 -include $(patsubst %,build/deps/%.d,$(TARGETS))
 
-build/deps/%.d: make/%.mk
+build/deps/%.d: targets/%.mk
 	$(Q)$(MAKE) $(SILENT) -f $(CBE)/src/dep.mk $@
 
 ################################################################################

@@ -3,13 +3,13 @@ include $(CBE)/src/lib/verbosity.mk
 
 TARGET=$(patsubst build/deps/%.d,%,$(MAKECMDGOALS))
 
-include make/$(TARGET).mk
+include targets/$(TARGET).mk
 
 ################################################################################
 # Top level dependency tracking
 ################################################################################
 
-build/deps/$(TARGET).d: make/$(TARGET).mk
+build/deps/$(TARGET).d: targets/$(TARGET).mk
 	mkdir -p $(@D)
 	echo 'build/$(TARGET): ' $(addprefix build/,$(DEPEDNS)) > $@
 

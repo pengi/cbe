@@ -8,8 +8,9 @@ LANG_GCC:=$(moduledir)
 OBJS += \
 	$(patsubst %.c, $(TMPDIR)/%.o, \
 	$(patsubst %.s, $(TMPDIR)/%.o, \
+	$(patsubst %.S, $(TMPDIR)/%.o, \
 	$(SRC) \
-	))
+	)))
 
 CFLAGS += \
 	$(addprefix -I,$(INC))
@@ -42,6 +43,11 @@ $(TMPDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(TMPDIR)/%.o: %.s
+	$(call TRACE,COMPILE)
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(TMPDIR)/%.o: %.S
 	$(call TRACE,COMPILE)
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c -o $@ $<
