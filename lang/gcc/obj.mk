@@ -22,6 +22,11 @@ CFLAGS += \
 # Enable debug symbols
 CFLAGS += -g
 
+# Treat warnings as errors globally
+# It's good practice to not have active warnings. They should be handled per
+# occurance, or per type.
+CFLAGS += -Werror
+
 # Optimization level
 GCC_OPTIMIZE ?= 3
 CFLAGS += -O$(GCC_OPTIMIZE)
