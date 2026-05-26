@@ -11,6 +11,6 @@ include targets/$(TARGET).mk
 
 build/deps/$(TARGET).d: targets/$(TARGET).mk
 	mkdir -p $(@D)
-	echo 'build/$(TARGET): ' $(addprefix build/,$(DEPEDNS)) > $@
+	echo 'build/$(TARGET): ' $(addprefix build/,$(DEPENDS)) > $@
 
 .PHONY: all
